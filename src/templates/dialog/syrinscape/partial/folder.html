@@ -7,12 +7,16 @@
 
   <div class="folder-content{{#if (empty children)}} empty{{/if}}">
     {{#each children as |obj|}}
+    {{#if obj.visible}}
+
     {{#if (eq obj.type "sound")}}
     {{> "modules/syrinscape/templates/dialog/syrinscape/partial/sound.html" obj }}
     {{/if}}
 
     {{#if (eq obj.type "folder")}}
     {{> "modules/syrinscape/templates/dialog/syrinscape/partial/folder.html" obj }}
+    {{/if}}
+
     {{/if}}
     {{/each}}
   </div>

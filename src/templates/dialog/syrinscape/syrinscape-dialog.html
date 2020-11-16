@@ -1,12 +1,22 @@
 <div class="{{cssClass}} syrinscape-dialog">
+  <div class="search-bar">
+    <input id="search" class="search" type="text" data-type="String" value="{{searchTerm}}" />
+    <div class="button clear"><i class="fas fa-eraser"></i></div>
+    <div class="button query"><i class="fas fa-search"></i></div>
+  </div>
+
   <div class="sound-library">
     {{#each library as |obj|}}
+    {{#if obj.visible}}
+
     {{#if (eq obj.type "sound")}}
     {{> "modules/syrinscape/templates/dialog/syrinscape/partial/sound.html" obj }}
     {{/if}}
 
     {{#if (eq obj.type "folder")}}
     {{> "modules/syrinscape/templates/dialog/syrinscape/partial/folder.html" obj }}
+    {{/if}}
+
     {{/if}}
     {{/each}}
   </div>

@@ -196,3 +196,56 @@ export function syrinSort(library?: any) {
 
   return library;
 }
+
+export function syrinFilter(filter: string, library?: any) {
+  if (!library) {
+    library = game.settings.get('syrinscape', 'sound-library');
+  }
+
+  const regex = new RegExp(filter, 'gi');
+
+  let parentList = [];
+  const searchChildren = (children: Array<any>) => {
+    for (let childIdx = 0; childIdx < children.length; childIdx++) {
+      const child = children[childIdx];
+
+      child.visible = false;
+
+      if (regex.test(child.name)) {
+        child.visible = true;
+        parentList.forEach(p => p.visible = true);
+
+        return true;
+      } else if (child.type === 'folder') {
+        parentList.push(child);
+
+        searchChildren(child.children);
+
+        parentList.pop();
+      }
+    }
+
+    return false;
+  };
+
+  for (let i = 0; i < library.length; i++) {
+    const obj = library[i];
+
+    obj.visible = false;
+
+    if (regex.test(obj.name)) {
+      obj.visible = true;
+      parentList.forEach(p => p.visible = true);
+
+      break;
+    } else if (obj.type === 'folder') {
+      parentList.push(obj);
+
+      searchChildren(obj.children);
+
+      parentList.pop();
+    }
+  }
+
+  return library;
+}

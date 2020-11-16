@@ -26,6 +26,29 @@
       }
     }
 
+    .search-bar {
+      display: flex;
+
+      margin-bottom: 6px;
+
+      .search {
+        flex: 1;
+
+        margin-right: 4px;
+      }
+
+      .button {
+        flex: 0;
+
+        min-width : 1.5rem;
+        min-height: 1.5rem;
+
+        &:not(:last-child) {
+          margin-right: 4px;
+        }
+      }
+    }
+
     .sound-library {
       flex: 1;
 

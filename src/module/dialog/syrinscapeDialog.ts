@@ -1,5 +1,5 @@
 import { Syrinscape } from "../config";
-import { syrinDelete, syrinFind, syrinSort } from "../util";
+import { syrinDelete, syrinFilter, syrinFind, syrinSort } from "../util";
 import { FolderDialogApplication } from "./folderDialog";
 import { MoveDialogApplication } from "./moveDialog";
 import { SoundDialogApplication } from "./soundDialog";
@@ -42,28 +42,89 @@ export class SyrinscapeDialogApplication extends Application {
     });
   }
 
-  getData() {
-    const data = super.getData();
+  searchTerm: string = '';
 
+  buildLibrary() {
     const apiKey = game.settings.get('syrinscape', 'api-key');
     const isApiKeyValid = apiKey && apiKey.length > 0;
 
-    const library = game.settings.get('syrinscape', 'sound-library') ?? [];
-    data.library = library.map(sound => {
-      return {
-        ...sound,
+    const addData = (obj) => {
+      if (obj.type === 'sound') {
+        mergeObject(obj, {
+          visible: true,
 
-        canPlay: isApiKeyValid,
-        playURL: `${sound.url}/play/?auth_token=${apiKey}`,
-        stopURL: `${sound.url}/stop/?auth_token=${apiKey}`,
-      };
-    });
+          canPlay: isApiKeyValid,
+          playURL: `${obj.url}/play/?auth_token=${apiKey}`,
+          stopURL: `${obj.url}/stop/?auth_token=${apiKey}`
+        });
+      } else if (obj.type === 'folder') {
+        mergeObject(obj, {
+          visible: true
+        });
+      }
+    };
+
+    const traverse = (obj) => {
+      addData(obj);
+
+      if (!obj.children) {
+        return;
+      }
+
+      const { children } = obj;
+      children.forEach(child => {
+        addData(child);
+        traverse(child);
+      });
+    };
+
+    const library: Array<any> = game.settings.get('syrinscape', 'sound-library') ?? [];
+
+    const built = duplicate(library);
+    built.forEach(child => traverse(child));
+    return built;
+  }
+
+  getData() {
+    const data = super.getData();
+
+    const { searchTerm } = this;
+    data.searchTerm = searchTerm;
+
+    let library = this.buildLibrary();
+
+    if (searchTerm.length > 0) {
+      library = syrinFilter(searchTerm, library);
+    }
+
+    data.library = library;
 
     return data;
   }
 
   activateListeners(html: JQuery) {
     super.activateListeners(html);
+
+    // Search
+    const searchBar = html.find('.search-bar');
+    const searchInput = searchBar.find('.search');
+
+    html.find('input.search').on('keypress', evt => {
+      if (evt.key === 'Enter') {
+        this.searchTerm = searchInput.val() as string;
+        this.render(true);
+      }
+    });
+
+    searchBar.find('.button.clear').on('click', evt => {
+      this.searchTerm = '';
+      this.render(true);
+    });
+
+    searchBar.find('.button.query').on('click', evt => {
+      this.searchTerm = searchInput.val() as string;
+      this.render(true);
+    });
 
     // Folder Actions
     const folders = html.find('.folder');
