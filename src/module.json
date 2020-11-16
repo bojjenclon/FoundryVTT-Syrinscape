@@ -1,7 +1,7 @@
 {
   "name": "syrinscape",
   "title": "Syrinscape",
-  "description": "",
+  "description": "Integrate Syrinscape's online player into Foundry",
   "version": "0.0.1",
   "author": "bojjenclon",
   "authors": [
@@ -12,8 +12,12 @@
     }
   ],
   "scripts": [],
-  "esmodules": ["syrinscape.js"],
-  "styles": ["syrinscape.css"],
+  "esmodules": [
+    "syrinscape.js"
+  ],
+  "styles": [
+    "syrinscape.css"
+  ],
   "packs": [],
   "languages": [
     {
@@ -23,7 +27,7 @@
     }
   ],
   "minimumCoreVersion": "0.5.0",
-  "compatibleCoreVersion": "0.5.0",
+  "compatibleCoreVersion": "0.7.7",
   "url": "",
   "manifest": "",
   "download": "",
