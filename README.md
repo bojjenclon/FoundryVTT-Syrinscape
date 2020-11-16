@@ -1,7 +1,11 @@
 # FoundryVTT - Syrinscape (Online Player) Integration
 
-## TODO
+## Todo
 
+* Better localization
 * Warning dialog when deleting non-empty folders
-* Make sounds macro-able
 * General tree traversal optimizations
+
+## Nice to have (but probably won't do)
+
+* Support drag and drop in the syrinscape window instead of a custom move dialog

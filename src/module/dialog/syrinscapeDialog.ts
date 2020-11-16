@@ -104,6 +104,20 @@ export class SyrinscapeDialogApplication extends Application {
     // Sound Actions
     const sounds = html.find('.sound');
 
+    sounds.on('dragstart', evt => {
+      const el = evt.currentTarget;
+      const origEvt = evt.originalEvent;
+
+      origEvt.dataTransfer.setData(
+        'text/plain',
+
+        JSON.stringify({
+          type: 'sound',
+          id: el.dataset.id
+        })
+      );
+    });
+
     sounds.find('.name').on('click', evt => {
       const el = evt.currentTarget;
       const soundEl = el.closest('.sound') as HTMLElement;

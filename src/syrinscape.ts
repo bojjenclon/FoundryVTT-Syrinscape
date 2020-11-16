@@ -14,6 +14,7 @@
 import { registerSettings } from './module/settings.js';
 import { preloadTemplates } from './module/preloadTemplates.js';
 import { SyrinscapeDialogApplication } from './module/dialog/syrinscapeDialog.js';
+import { syrinFind } from './module/util.js';
 
 /* ------------------------------------ */
 /* Initialize module					*/
@@ -106,4 +107,49 @@ Hooks.on('chatMessage', (log, text: string, data: object) => {
 	}
 
 	return true;
+});
+
+Hooks.on('hotbarDrop', async (_bar, data, slot) => {
+	if (data.type !== 'sound') {
+		return;
+	}
+
+	const soundData = syrinFind(data.id);
+
+	if (!soundData) {
+		ui.notifications.warn(game.i18n.localize('SYRINSCAPE.warning.noDataFound'));
+		return;
+	}
+
+	const apiKey = game.settings.get('syrinscape', 'api-key');
+	const isApiKeyValid = apiKey && apiKey.length > 0;
+
+	if (!isApiKeyValid) {
+		ui.notifications.warn(game.i18n.localize('SYRINSCAPE.warning.apiKeyMissing'));
+		return;
+	}
+
+	const macroName = `Play: ${soundData.name}`;
+	const command = `fetch('${soundData.url}/play/?auth_token=${apiKey}', { mode: 'no-cors' });`;
+
+	let macro: Macro =
+		game.macros.entities.find(macro => {
+			const macroData: any = macro.data;
+			return macro.name === macroName && macroData.command === command;
+		});
+
+	if (!macro) {
+		macro = await Macro.create({
+			name: macroName,
+			type: 'script',
+			img: 'icons/tools/instruments/megaphone.webp',
+			command: command
+		}, {
+			renderSheet: false
+		}) as Macro;
+	}
+
+	game.user.assignHotbarMacro(macro, slot);
+
+	return false;
 });
