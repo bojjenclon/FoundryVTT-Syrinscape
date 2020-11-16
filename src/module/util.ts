@@ -169,6 +169,8 @@ export function syrinSort(library?: any) {
   const sorter = (a: any, b: any): number => {
     if (a.type === 'folder' && b.type === 'sound') {
       return -1;
+    } else if (a.type === 'sound' && b.type === 'folder') {
+      return 1;
     } else if (a.name === b.name) {
       return a.id.localeCompare(b.id);
     }
@@ -183,7 +185,9 @@ export function syrinSort(library?: any) {
       for (let child of obj) {
         doSort(child);
       }
-    } else if (obj.children) {
+    }
+
+    if (obj.children) {
       obj.children.sort(sorter);
 
       for (let child of obj.children) {
