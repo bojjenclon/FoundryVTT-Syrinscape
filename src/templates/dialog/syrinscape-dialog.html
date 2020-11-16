@@ -1,0 +1,16 @@
+<div class="{{cssClass}} syrinscape-dialog">
+  <div class="sound-library">
+    {{#each library as |sound|}}
+      <div class="sound" data-id="{{sound.id}}">
+        <div class="name">{{sound.name}}</div>
+        <div class="button delete"><i class="fas fa-trash-alt"></i></div>
+        <div class="button stop" data-url="{{sound.stopURL}}"><i class="fas fa-volume-off"></i></div>
+        <div class="button play" data-url="{{sound.playURL}}"><i class="fas fa-volume-up"></i></div>
+      </div>
+    {{/each}}
+  </div>
+
+  <div class="actions">
+    <div class="button add">Add Sound</div>
+  </div>
+</div>

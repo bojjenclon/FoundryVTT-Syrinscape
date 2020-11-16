@@ -1,0 +1,94 @@
+/* ------------------------------------ */
+/*				   Sass					*/
+/* This is your Sass entry file			*/
+/* ------------------------------------ */
+
+.syrinscape {
+  .syrinscape-dialog {
+    display: flex;
+    flex-direction: column;
+
+    .button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      background: rgba(0, 0, 0, 0.1);
+      border: 1px solid #999;
+      border-radius: 3px;
+      box-shadow: 0 0 2px #FFF inset;
+
+      &:hover {
+        outline: none;
+        box-shadow: 0 0 5px red;
+      }
+    }
+
+    .sound-library {
+      flex: 1;
+
+      .sound {
+        display: flex;
+    
+        .name {
+          flex: 1;
+
+          display: flex;
+          align-items: center;
+
+          font-weight: bold;
+        }
+    
+        .button {
+          flex: 0;
+
+          min-width: 1.5rem;
+          min-height: 1.5rem;
+    
+          &:not(:last-child) {
+            margin-right: 8px;
+          }
+        }
+
+        &:not(:last-child) {
+          margin-bottom: 8px;
+        }
+      }
+    }
+
+    .actions {
+      flex: 0;
+
+      .button {
+        height: 28px;
+        line-height: 26px;
+        margin: 4px;
+      }
+    }
+  }
+
+  .sound-dialog {
+    header {
+      flex: 0;
+
+      margin-bottom: 10px;
+    }
+
+    section {
+      flex: 1;
+
+      display: flex;
+      flex-direction: column;
+
+      input:not(:last-child) {
+        margin-bottom: 8px;
+      }
+
+      textarea {
+        flex: 1;
+
+        resize: none;
+      }
+    }
+  }
+}

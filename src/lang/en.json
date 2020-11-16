@@ -1,0 +1,4 @@
+{
+  "SETTINGS.name.apiKey": "API Key",
+  "SETTINGS.hint.apiKey": "Auth token for Syrinscape"
+}

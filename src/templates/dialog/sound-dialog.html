@@ -1,0 +1,13 @@
+<form class="{{cssClass}} sound-dialog flexcol" autocomplete="off">
+  <header>
+    <input id="name" name="name" type="text" value="{{name}}" d-type="String" />
+  </header>
+
+  <section>
+    <label for="url">URL</label>
+    <input id="url" name="url" type="text" value="{{url}}" d-type="String" />
+
+    <label for="description">Description</label>
+    <textarea id="description" name="description" d-type="String">{{description}}</textarea>
+  </section>
+</form>
