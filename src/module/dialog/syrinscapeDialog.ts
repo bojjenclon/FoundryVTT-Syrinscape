@@ -1,5 +1,6 @@
 import { Syrinscape } from "../config";
 import { syrinDelete, syrinFind, syrinSort } from "../util";
+import { FolderDialogApplication } from "./folderDialog";
 import { MoveDialogApplication } from "./moveDialog";
 import { SoundDialogApplication } from "./soundDialog";
 
@@ -66,6 +67,17 @@ export class SyrinscapeDialogApplication extends Application {
 
     // Folder Actions
     const folders = html.find('.folder');
+
+    folders.find('.folder-header .name').on('click', evt => {
+      const el = evt.currentTarget;
+      const folderEl = el.closest('.folder') as HTMLElement;
+
+      const folderId = folderEl.dataset.id;
+      const folderData = syrinFind(folderId);
+
+      const dialog = new FolderDialogApplication(folderData);
+      dialog.render(true);
+    });
 
     folders.find('.folder-header .move').on('click', async (evt) => {
       const el = evt.currentTarget;
@@ -178,6 +190,9 @@ export class SyrinscapeDialogApplication extends Application {
       await game.settings.set('syrinscape', 'sound-library', syrinSort(library));
 
       this.render(true);
+
+      const dialog = new FolderDialogApplication(folderData);
+      dialog.render(true);
     });
   }
 }
