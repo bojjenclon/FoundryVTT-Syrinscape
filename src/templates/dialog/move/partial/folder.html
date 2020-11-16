@@ -1,0 +1,15 @@
+<div
+  class="folder{{#if (eq id @root.activeId)}} active{{/if}}{{#if (or (eq id @root.sourceId) (isChildOf id @root.sourceId))}} disabled{{/if}}"
+  data-id="{{id}}">
+  <div class="folder-header">
+    <a class="name">{{name}}</a>
+  </div>
+
+  <div class="folder-content{{#if (empty children)}} empty{{/if}}">
+    {{#each children as |obj|}}
+    {{#if (eq obj.type "folder")}}
+    {{> "modules/syrinscape/templates/dialog/move/partial/folder.html" obj }}
+    {{/if}}
+    {{/each}}
+  </div>
+</div>

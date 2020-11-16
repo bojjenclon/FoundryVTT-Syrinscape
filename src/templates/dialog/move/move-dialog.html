@@ -1,0 +1,17 @@
+<div class="{{cssClass}} move-dialog">
+  <div class="sound-library">
+    <div class="folder{{#if (eq activeId 'root')}} active{{/if}}" data-id="root">
+      <div class="folder-header">
+        <a class="name">Root</a>
+      </div>
+
+      <div class="folder-content">
+        {{#each library as |obj|}}
+        {{#if (eq obj.type "folder")}}
+        {{> "modules/syrinscape/templates/dialog/move/partial/folder.html" obj }}
+        {{/if}}
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</div>

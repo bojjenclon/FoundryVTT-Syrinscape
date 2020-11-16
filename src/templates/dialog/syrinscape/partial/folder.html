@@ -1,0 +1,19 @@
+<div class="folder" data-id="{{id}}">
+  <div class="folder-header">
+    <a class="name">{{name}}</a>
+    <div class="move"><i class="fas fa-arrows-alt"></i></div>
+    <div class="delete"><i class="fas fa-trash-alt"></i></div>
+  </div>
+
+  <div class="folder-content{{#if (empty children)}} empty{{/if}}">
+    {{#each children as |obj|}}
+    {{#if (eq obj.type "sound")}}
+    {{> "modules/syrinscape/templates/dialog/syrinscape/partial/sound.html" obj }}
+    {{/if}}
+
+    {{#if (eq obj.type "folder")}}
+    {{> "modules/syrinscape/templates/dialog/syrinscape/partial/folder.html" obj }}
+    {{/if}}
+    {{/each}}
+  </div>
+</div>

@@ -1,8 +1,11 @@
+import { syrinUpdate } from "../util";
 import { SyrinscapeDialogApplication } from "./syrinscapeDialog";
 
 export class SoundDialogApplication extends FormApplication {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
+      title: 'Syrinscape - Sound',
+
       template: 'modules/syrinscape/templates/dialog/sound-dialog.html',
       classes: ['syrinscape', 'sound-dialog'],
 
@@ -20,7 +23,7 @@ export class SoundDialogApplication extends FormApplication {
 
   sound: any;
 
-  constructor(sound: Object) {
+  constructor(sound: any) {
     super(sound);
 
     this.sound = sound;
@@ -37,17 +40,9 @@ export class SoundDialogApplication extends FormApplication {
   }
 
   async _updateObject(_event, formData) {
-    const library: Array<any> = game.settings.get('syrinscape', 'sound-library') ?? [];
     const { sound } = this;
 
-    const libIdx = library.findIndex(snd => snd.id === sound.id);
-    const libSound = library[libIdx];
-
-    mergeObject(libSound, formData);
-
-    library[libIdx] = libSound;
-
-    await game.settings.set('syrinscape', 'sound-library', library);
+    await game.settings.set('syrinscape', 'sound-library', syrinUpdate(sound.id, formData));
 
     SyrinscapeDialogApplication.reloadDialog();
   }

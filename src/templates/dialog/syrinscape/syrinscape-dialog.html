@@ -1,0 +1,18 @@
+<div class="{{cssClass}} syrinscape-dialog">
+  <div class="sound-library">
+    {{#each library as |obj|}}
+    {{#if (eq obj.type "sound")}}
+    {{> "modules/syrinscape/templates/dialog/syrinscape/partial/sound.html" obj }}
+    {{/if}}
+
+    {{#if (eq obj.type "folder")}}
+    {{> "modules/syrinscape/templates/dialog/syrinscape/partial/folder.html" obj }}
+    {{/if}}
+    {{/each}}
+  </div>
+
+  <div class="actions">
+    <div class="button add-folder">Add Folder</div>
+    <div class="button add-sound">Add Sound</div>
+  </div>
+</div>

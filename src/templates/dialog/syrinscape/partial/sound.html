@@ -1,0 +1,13 @@
+<div class="sound" data-id="{{id}}">
+  <div class="sound-header">
+    <a class="name">{{name}}</a>
+    <div class="button delete"><i class="fas fa-trash-alt"></i></div>
+    <div class="button move"><i class="fas fa-arrows-alt"></i></div>
+    <div class="button stop" data-url="{{stopURL}}"><i class="fas fa-volume-off"></i></div>
+    <div class="button play" data-url="{{playURL}}"><i class="fas fa-volume-up"></i></div>
+  </div>
+
+  <div class="sound-body">
+    <p class="description{{#if (empty description)}} empty{{/if}}">{{description}}</p>
+  </div>
+</div>
