@@ -2,5 +2,6 @@
   "SETTINGS.name.apiKey": "API Key",
   "SETTINGS.hint.apiKey": "Auth token for Syrinscape",
   "SYRINSCAPE.warning.noDataFound": "No data was found for this sound",
+  "SYRINSCAPE.warning.noSoundURL": "No URL has been supplied for this sound",
   "SYRINSCAPE.warning.apiKeyMissing": "An API key needs to be defined in the module settings"
 }

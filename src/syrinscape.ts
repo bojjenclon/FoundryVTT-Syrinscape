@@ -78,6 +78,11 @@ Hooks.on('hotbarDrop', async (_bar, data, slot) => {
 		return;
 	}
 
+	if (soundData.url.length === 0) {
+		ui.notifications.warn(game.i18n.localize('SYRINSCAPE.warning.noSoundURL'));
+		return;
+	}
+
 	const apiKey = game.settings.get('syrinscape', 'api-key');
 	const isApiKeyValid = apiKey && apiKey.length > 0;
 
