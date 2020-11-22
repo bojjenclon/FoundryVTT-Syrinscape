@@ -221,8 +221,12 @@ export function syrinFilter(filter: string, library?: any) {
         child.visible = true;
         parentList.forEach(p => p.visible = true);
 
-        return true;
-      } else if (child.type === 'folder') {
+        if (child.type === 'folder') {
+          continue;
+        }
+      } 
+      
+      if (child.type === 'folder') {
         parentList.push(child);
 
         searchChildren(child.children);
@@ -230,8 +234,6 @@ export function syrinFilter(filter: string, library?: any) {
         parentList.pop();
       }
     }
-
-    return false;
   };
 
   for (let i = 0; i < library.length; i++) {
@@ -243,8 +245,12 @@ export function syrinFilter(filter: string, library?: any) {
       obj.visible = true;
       parentList.forEach(p => p.visible = true);
 
-      break;
-    } else if (obj.type === 'folder') {
+      if (obj.type === 'folder') {
+        continue;
+      }
+    } 
+    
+    if (obj.type === 'folder') {
       parentList.push(obj);
 
       searchChildren(obj.children);
