@@ -1,5 +1,5 @@
 import { Syrinscape } from "../config";
-import { syrinDelete, syrinFilter, syrinFind, syrinSort } from "../util";
+import { syrinDelete, syrinFilter, syrinFind, syrinReparent, syrinSort } from "../util";
 import { FolderDialogApplication } from "./folderDialog";
 import { MoveDialogApplication } from "./moveDialog";
 import { SoundDialogApplication } from "./soundDialog";
@@ -105,6 +105,56 @@ export class SyrinscapeDialogApplication extends Application {
   activateListeners(html: JQuery) {
     super.activateListeners(html);
 
+    const createSound = async (folderId?: string) => {
+      const uuid = randomID();
+      const soundData = {
+        id: uuid,
+        type: 'sound',
+        name: 'New Sound',
+        url: '',
+        description: '',
+        parent: 'root'
+      };
+
+      const library: Array<any> = game.settings.get('syrinscape', 'sound-library') ?? [];
+      library.push(soundData);
+
+      if (folderId) {
+        syrinReparent(soundData.id, folderId, true, library);
+      }
+
+      await game.settings.set('syrinscape', 'sound-library', syrinSort(library));
+
+      this.render(true);
+
+      const dialog = new SoundDialogApplication(soundData);
+      dialog.render(true);
+    };
+
+    const createFolder = async (parentId?: string) => {
+      const uuid = randomID();
+      const folderData = {
+        id: uuid,
+        type: 'folder',
+        name: 'New Folder',
+        children: []
+      };
+
+      const library: Array<any> = game.settings.get('syrinscape', 'sound-library') ?? [];
+      library.push(folderData);
+
+      if (parentId) {
+        syrinReparent(folderData.id, parentId, true, library);
+      }
+
+      await game.settings.set('syrinscape', 'sound-library', syrinSort(library));
+
+      this.render(true);
+
+      const dialog = new FolderDialogApplication(folderData);
+      dialog.render(true);
+    };
+
     // Search
     const searchBar = html.find('.search-bar');
     const searchInput = searchBar.find('.search');
@@ -138,6 +188,24 @@ export class SyrinscapeDialogApplication extends Application {
 
       const dialog = new FolderDialogApplication(folderData);
       dialog.render(true);
+    });
+
+    folders.find('.folder-header .add-sound').on('click', async (evt) => {
+      const el = evt.currentTarget;
+      const folderEl = el.closest('.folder') as HTMLElement;
+
+      const folderId = folderEl.dataset.id;
+
+      await createSound(folderId);
+    });
+
+    folders.find('.folder-header .add-folder').on('click', async (evt) => {
+      const el = evt.currentTarget;
+      const folderEl = el.closest('.folder') as HTMLElement;
+
+      const folderId = folderEl.dataset.id;
+
+      await createFolder(folderId);
     });
 
     folders.find('.folder-header .move').on('click', async (evt) => {
@@ -231,43 +299,11 @@ export class SyrinscapeDialogApplication extends Application {
     });
 
     html.find('.button.add-sound').on('click', async (evt) => {
-      const uuid = randomID();
-      const soundData = {
-        id: uuid,
-        type: 'sound',
-        name: 'New Sound',
-        url: '',
-        description: '',
-        parent: 'root'
-      };
-
-      const library: Array<any> = game.settings.get('syrinscape', 'sound-library') ?? [];
-      library.push(soundData);
-      await game.settings.set('syrinscape', 'sound-library', syrinSort(library));
-
-      this.render(true);
-
-      const dialog = new SoundDialogApplication(soundData);
-      dialog.render(true);
+      await createSound();
     });
 
     html.find('.button.add-folder').on('click', async (evt) => {
-      const uuid = randomID();
-      const folderData = {
-        id: uuid,
-        type: 'folder',
-        name: 'New Folder',
-        children: []
-      };
-
-      const library: Array<any> = game.settings.get('syrinscape', 'sound-library') ?? [];
-      library.push(folderData);
-      await game.settings.set('syrinscape', 'sound-library', syrinSort(library));
-
-      this.render(true);
-
-      const dialog = new FolderDialogApplication(folderData);
-      dialog.render(true);
+      await createFolder();
     });
   }
 }

@@ -108,8 +108,10 @@ export function syrinDelete(id: String, doSort: boolean = true): Array<any> {
   return doSort ? syrinSort(library) : library;
 }
 
-export function syrinReparent(sourceId: String, parentId: String, doSort: boolean = true): Array<any> {
-  const library = game.settings.get('syrinscape', 'sound-library');
+export function syrinReparent(sourceId: String, parentId: String, doSort: boolean = true, library?: any): Array<any> {
+  if (!library) {
+    library = game.settings.get('syrinscape', 'sound-library');
+  }
 
   let source: any;
   let folder: any;

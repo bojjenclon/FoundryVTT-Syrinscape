@@ -1,8 +1,10 @@
 <div class="folder" data-id="{{id}}">
   <div class="folder-header">
     <a class="name">{{name}}</a>
-    <div class="move"><i class="fas fa-arrows-alt"></i></div>
-    <div class="delete"><i class="fas fa-trash-alt"></i></div>
+    <a class="delete"><i class="fas fa-trash-alt"></i></a>
+    <a class="move"><i class="fas fa-arrows-alt"></i></a>
+    <a class="add-folder"><i class="fas fa-folder"></i></a>
+    <a class="add-sound"><i class="fas fa-leaf"></i></a>
   </div>
 
   <div class="folder-content{{#if (empty children)}} empty{{/if}}">
